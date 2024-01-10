@@ -14,7 +14,7 @@
             :fit="true"
             size="medium"
           >
-            <tiny-grid-column type="index" width="20"></tiny-grid-column>
+            <tiny-grid-column type="index" width="35"></tiny-grid-column>
             <tiny-grid-column
               field="carID"
               title="车队名称"
