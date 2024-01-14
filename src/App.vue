@@ -28,7 +28,7 @@
                   class="status-img"
                   @click="goCar(data.row.carID)"
                   alt="Endpoint Badge"
-                  :src="`https://img.closeai.biz/endpoint?url=${baseUrl}/endpoint?carid=${data.row.encodeCarID}`"
+                  :src="`https://img.closeai.biz/endpoint?url=${encodeUrl}`"
                 />
               </template>
             </tiny-grid-column>
@@ -134,7 +134,9 @@ export default {
           .then((response) => {
             console.log(response.data);
             response.data.data.list.forEach((element) => {
-              element["encodeCarID"] = encodeURI(element.carID);
+              element[
+                "encodeUrl"
+              ] = `${this.baseUrl}/endpoint?carid=${element["carID"]}`;
             });
             resolve({
               result: response.data.data.list,
