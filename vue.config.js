@@ -8,7 +8,7 @@ module.exports = defineConfig({
   devServer: {
     proxy: {
       "/carpage": {
-        target: "https://share-dev.closeai.biz",
+        target: "https://share.xyhelper.com.cn",
         changeOrigin: true,
         ws: true,
         autoRewrite: true,
