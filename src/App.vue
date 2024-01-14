@@ -26,7 +26,7 @@
               <template #default="data">
                 <img
                   class="status-img"
-                  @click="goCar(data.row.carID)"
+                  @click="goCar(data.row)"
                   alt="Endpoint Badge"
                   :src="`https://img.closeai.biz/endpoint?url=${data.row.encodeUrl}`"
                 />
@@ -101,6 +101,7 @@ export default {
         api: this.init,
       },
       baseUrl: window.location.origin,
+      baseUrl: "https://share.xyhelper.com.cn",
     };
   },
   computed: {},
@@ -137,7 +138,7 @@ export default {
               return {
                 ...item,
                 encodeUrl: encodeURIComponent(
-                  `${this.baseUrl}/endpoint?carid=${item["carID"]}`
+                  `${this.baseUrl}/endpoint?carid=${encodeURI(item["carID"])}`
                 ),
               };
             });
@@ -156,15 +157,9 @@ export default {
       });
     },
     goCar(row) {
-      //https://share-dev.closeai.biz/auth/login?carid=35kvotlu
-      // console.log(window.location);
-      //打开新页面并且设置地址为baidu.com
-      window.location.href = `${window.location.origin}/auth/login?carid=${row.carID}`;
-      // window.open(
-      //   `${window.location.origin}/auth/login?carid=${carID}`,
-      //   "_blank"
-      // );
-      // this.$router.push({ path: `/car/${id}` });
+      window.location.href = `${
+        window.location.origin
+      }/auth/login?carid=${encodeURI(row.carID)}`;
     },
   },
   beforeDestroy() {},
