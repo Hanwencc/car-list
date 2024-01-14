@@ -101,7 +101,6 @@ export default {
         api: this.init,
       },
       baseUrl: window.location.origin,
-      baseUrl: "https://share.xyhelper.com.cn",
     };
   },
   computed: {},
