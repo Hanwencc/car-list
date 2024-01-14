@@ -28,7 +28,7 @@
                   class="status-img"
                   @click="goCar(data.row.carID)"
                   alt="Endpoint Badge"
-                  :src="`https://img.shields.io/endpoint?url=${baseUrl}/endpoint?carid=${data.row.carID}`"
+                  :src="`https://img.closeai.biz/endpoint?url=${baseUrl}/endpoint?carid=${data.row.encodeCarID}`"
                 />
               </template>
             </tiny-grid-column>
@@ -38,7 +38,7 @@
                   <tiny-button
                     type="primary"
                     :icon="TinyIconEditorRedo"
-                    @click="goCar(data.row.carID)"
+                    @click="goCar(data.row)"
                   >
                     访问
                   </tiny-button>
@@ -133,6 +133,9 @@ export default {
           })
           .then((response) => {
             console.log(response.data);
+            response.data.data.list.forEach((element) => {
+              element["encodeCarID"] = encodeURI(element.carID);
+            });
             resolve({
               result: response.data.data.list,
               page: { total: response.data.data.pagination.total },
@@ -147,11 +150,11 @@ export default {
           });
       });
     },
-    goCar(carID) {
+    goCar(row) {
       //https://share-dev.closeai.biz/auth/login?carid=35kvotlu
       // console.log(window.location);
       //打开新页面并且设置地址为baidu.com
-      window.location.href = `${window.location.origin}/auth/login?carid=${carID}`;
+      window.location.href = `${window.location.origin}/auth/login?carid=${row.carID}`;
       // window.open(
       //   `${window.location.origin}/auth/login?carid=${carID}`,
       //   "_blank"
