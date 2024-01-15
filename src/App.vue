@@ -47,7 +47,7 @@
                   <tiny-button
                     type="primary"
                     :icon="TinyIconEditorRedo"
-                    @click="goCar(data.row.carID)"
+                    @click="goCar(data.row)"
                   ></tiny-button>
                 </div>
               </template>
