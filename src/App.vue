@@ -6,6 +6,7 @@
           <div></div>
         </tiny-col>
         <tiny-col :sm="12" :md="8" :lg="6" :xl="4">
+          <div v-html="notice"></div>
           <tiny-grid
             :loading="loading"
             :fetch-data="fetchData"
@@ -100,6 +101,7 @@ export default {
       fetchData: {
         api: this.init,
       },
+      notice: "",
       baseUrl: window.location.origin,
     };
   },
@@ -133,6 +135,7 @@ export default {
           })
           .then((response) => {
             console.log(response.data);
+            this.notice = response.data.notice;
             let listData = response.data.data.list.map((item) => {
               return {
                 ...item,
