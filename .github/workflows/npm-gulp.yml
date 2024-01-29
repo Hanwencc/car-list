@@ -3,7 +3,7 @@ name: Build and Deploy to dist Branch
 on:
   push:
     branches:
-      - master # 设置触发构建的分支
+      - master 
 
 jobs:
   build-and-deploy:
