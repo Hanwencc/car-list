@@ -1,39 +1,34 @@
-name: Build and Deploy car-list
+name: Build and Deploy to dist Branch
 
 on:
   push:
     branches:
-      - master # 触发条件：当代码推送到 master 分支时
+      - master # 设置触发构建的分支
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2 # 检出仓库
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v2
+    - uses: actions/checkout@v2
       with:
-        node-version: 14 # 使用 Node.js 14（或你需要的版本）
+        fetch-depth: 0 # 确保历史完整以便后续操作可以使用
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14' # 设置Node.js的版本
 
     - name: Install Dependencies
-      run: npm install # 安装项目依赖
+      run: npm install
 
-    - name: Build car-list
-      run: npm run build # 构建 Vue.js 应用，确保在 package.json 中定义了正确的构建命令
+    - name: Build
+      run: npm run build
 
-    - name: Deploy to Repo Branch
-      run: |
-        timestamp=$(date -u)
-        git config --global user.email "a@2k.ink" # 设置 git 配置
-        git config --global user.name "hanwen"
-         # 使用个人访问令牌进行身份验证
-        git remote set-url origin "https://Hanwencc:${{ secrets.GH_TOKEN }}@github.com/Hanwencc/car-list.git"
-        git checkout -b dist # 切换到目标分支
-        git add dist/ # 添加构建后的 dist 目录
-        git commit -m "Auto-deployed car-list ${timestamp}" # 提交更改
-        git push origin dist # 推送到目标分支
-
-# 在上述配置中，请将 "repo-branch-name" 替换为你要推送到的目标分支的名称。
+    - name: Deploy to dist Branch
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }} # 使用GitHub提供的令牌
+        publish_dir: ./dist # 设置发布目录
+        publish_branch: dist # 设置目标分支
+        keep_files: true # 保留现有文件
