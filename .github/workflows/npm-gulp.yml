@@ -21,17 +21,19 @@ jobs:
     - name: Install Dependencies
       run: npm install # 安装项目依赖
 
-    - name: Build Vue.js App
+    - name: Build car-list
       run: npm run build # 构建 Vue.js 应用，确保在 package.json 中定义了正确的构建命令
 
     - name: Deploy to Repo Branch
       run: |
+        timestamp=$(date -u)
         git config --global user.email "a@2k.ink" # 设置 git 配置
         git config --global user.name "hanwen"
-
+         # 使用个人访问令牌进行身份验证
+        git remote set-url origin "https://Hanwencc:${{ secrets.GH_TOKEN }}@github.com/Hanwencc/car-list.git"
         git checkout -b dist # 切换到目标分支
         git add dist/ # 添加构建后的 dist 目录
-        git commit -m "Auto-deployed car-list" # 提交更改
+        git commit -m "Auto-deployed car-list ${timestamp}" # 提交更改
         git push origin dist # 推送到目标分支
 
 # 在上述配置中，请将 "repo-branch-name" 替换为你要推送到的目标分支的名称。
