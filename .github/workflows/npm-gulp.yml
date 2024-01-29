@@ -3,32 +3,32 @@ name: Build and Deploy to dist Branch
 on:
   push:
     branches:
-      - master 
+      - master
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-      with:
-        fetch-depth: 0 # 确保历史完整以便后续操作可以使用
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # 确保历史完整以便后续操作可以使用
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v1
-      with:
-        node-version: '14' # 设置Node.js的版本
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: "14" # 设置Node.js的版本
 
-    - name: Install Dependencies
-      run: npm install
+      - name: Install Dependencies
+        run: npm install
 
-    - name: Build
-      run: npm run build
+      - name: Build
+        run: npm run build
 
-    - name: Deploy to dist Branch
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }} # 使用GitHub提供的令牌
-        publish_dir: ./dist # 设置发布目录
-        publish_branch: dist # 设置目标分支
-        keep_files: true # 保留现有文件
+      - name: Deploy to dist Branch
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} # 使用GitHub提供的令牌
+          publish_dir: ./dist # 设置发布目录
+          publish_branch: dist # 设置目标分支
+          keep_files: false # 保留现有文件
