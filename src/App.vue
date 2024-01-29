@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <tiny-layout class="tiny-layout-responsive-layout">
-      <tiny-row>
+      <tiny-row :noSpace="true">
         <tiny-col :sm="0" :md="2" :lg="3" :xl="4">
           <div></div>
         </tiny-col>
@@ -14,16 +14,33 @@
             :pager="pagerConfig"
             :fit="true"
             size="medium"
+            :auto-resize="true"
           >
-            <tiny-grid-column type="index" width="35"></tiny-grid-column>
             <tiny-grid-column
+              v-if="isLargeScreen"
+              type="index"
+              width="35"
+            ></tiny-grid-column>
+            <tiny-grid-column
+              v-if="isLargeScreen"
               field="carID"
               title="车队名称"
               align="center"
             ></tiny-grid-column>
-            <!-- <tiny-grid-column field="isPlus" title="是否plus"></tiny-grid-column> -->
+            <tiny-grid-column
+              v-if="!isLargeScreen"
+              field="carID"
+              title="车队名称"
+              align="center"
+              width="70"
+            ></tiny-grid-column>
 
-            <tiny-grid-column field="status" title="状态" align="center">
+            <tiny-grid-column
+              field="status"
+              width="auto"
+              title="状态"
+              align="center"
+            >
               <template #default="data">
                 <img
                   class="status-img"
@@ -33,24 +50,35 @@
                 />
               </template>
             </tiny-grid-column>
-            <tiny-grid-column field="carID" title="操作" align="center">
+            <tiny-grid-column
+              v-if="isLargeScreen"
+              field="carID"
+              title="操作"
+              align="center"
+            >
               <template #default="data">
-                <div class="tools desktop">
-                  <tiny-button
-                    type="primary"
-                    :icon="TinyIconEditorRedo"
-                    @click="goCar(data.row)"
-                  >
-                    访问
-                  </tiny-button>
-                </div>
-                <div class="tools mobile">
-                  <tiny-button
-                    type="primary"
-                    :icon="TinyIconEditorRedo"
-                    @click="goCar(data.row)"
-                  ></tiny-button>
-                </div>
+                <tiny-button
+                  type="primary"
+                  :icon="TinyIconEditorRedo"
+                  @click="goCar(data.row)"
+                >
+                  访问
+                </tiny-button>
+              </template>
+            </tiny-grid-column>
+            <tiny-grid-column
+              v-if="!isLargeScreen"
+              field="carID"
+              title="操作"
+              align="center"
+              width="60"
+            >
+              <template #default="data">
+                <tiny-button
+                  type="primary"
+                  :icon="TinyIconEditorRedo"
+                  @click="goCar(data.row)"
+                ></tiny-button>
               </template>
             </tiny-grid-column>
           </tiny-grid>
@@ -102,13 +130,21 @@ export default {
         api: this.init,
       },
       notice: "",
+      windowWidth: window.innerWidth,
       baseUrl: window.location.origin,
+      // baseUrl: "https://share.xyhelper.com.cn",
     };
   },
-  computed: {},
+  computed: {
+    isLargeScreen() {
+      return this.windowWidth > 992;
+    },
+  },
   watch: {},
   beforeCreate() {},
-  created() {},
+  created() {
+    window.addEventListener("resize", this.handleResize);
+  },
   beforeMount() {},
   mounted() {
     // this.init();
@@ -162,6 +198,9 @@ export default {
       window.location.href = `${
         window.location.origin
       }/auth/login?carid=${encodeURI(row.carID)}`;
+    },
+    handleResize() {
+      this.windowWidth = window.innerWidth;
     },
   },
   beforeDestroy() {},
