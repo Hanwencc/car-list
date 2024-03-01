@@ -1,0 +1,1 @@
+#app{padding:0;margin:0}.tools{display:flex;flex-direction:row;justify-content:space-between;align-items:center}.status-img{cursor:pointer}.desktop,.mobile{display:none}@media (min-width:800px){.desktop{display:block}}@media (max-width:799px){.mobile{display:block}}
