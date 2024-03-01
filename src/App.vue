@@ -167,6 +167,8 @@ export default {
             data: {
               page: currentPage,
               size: pageSize,
+              sort: "desc",
+              order: "sort",
             },
           })
           .then((response) => {
